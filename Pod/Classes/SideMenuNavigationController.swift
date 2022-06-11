@@ -332,6 +332,24 @@ open class SideMenuNavigationController: UINavigationController {
         }
         set { Print.warning(.transitioningDelegate, required: true) }
     }
+    
+    // MARK: - Interface Orientations related
+    
+    public override var shouldAutorotate: Bool {
+        return self.topViewController?.shouldAutorotate ?? super.shouldAutorotate
+    }
+    
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return self.topViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
+    }
+    
+    public override var prefersStatusBarHidden: Bool {
+        return self.topViewController?.prefersStatusBarHidden ?? super.prefersStatusBarHidden
+    }
+    
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return self.topViewController?.preferredStatusBarStyle ?? super.preferredStatusBarStyle
+    }
 }
 
 // Interface

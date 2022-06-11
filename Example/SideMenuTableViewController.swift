@@ -7,6 +7,7 @@
 //
 
 import SideMenu
+import UIKit
 
 class SideMenuTableViewController: UITableViewController {
     
@@ -37,4 +38,9 @@ class SideMenuTableViewController: UITableViewController {
         return cell
     }
     
+    // MARK: - Interface Orientations related
+    
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIApplication.shared.supportedInterfaceOrientations(for: self.view.window)
+    }
 }
