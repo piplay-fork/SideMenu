@@ -91,7 +91,7 @@ public class SideMenuManager: NSObject {
      - Parameter fromView: The view to remove gestures from.
      - Parameter forMenu: The menu (left or right) you want to remove a gesture for.
      */
-    func removeScreenEdgeGesture(from view: UIView, edge: UIRectEdge) {
+    public func removeScreenEdgeGesture(from view: UIView, edge: UIRectEdge) {
         if let screenEdgeGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuScreenEdgeGestureRecognizer }) as? SideMenuScreenEdgeGestureRecognizer,
             screenEdgeGestureRecognizer.edges == edge {
             screenEdgeGestureRecognizer.remove()
@@ -120,7 +120,7 @@ public class SideMenuManager: NSObject {
      
      - Parameter fromView: The view to remove gestures from.
      */
-    func removePanGesture(from view: UIView) {
+    public func removePanGesture(from view: UIView) {
         if let panGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuPanGestureRecognizer }) as? SideMenuPanGestureRecognizer {
             panGestureRecognizer.remove()
         }
