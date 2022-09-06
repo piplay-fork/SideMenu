@@ -84,6 +84,19 @@ public class SideMenuManager: NSObject {
             addScreenEdgePanGesturesToPresent(toView: view, forMenu: .right)
         ]
     }
+    
+    /**
+     Remove screen edge gestures from a view.
+     
+     - Parameter fromView: The view to remove gestures from.
+     - Parameter forMenu: The menu (left or right) you want to remove a gesture for.
+     */
+    func removeScreenEdgeGesture(from view: UIView, edge: UIRectEdge) {
+        if let screenEdgeGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuScreenEdgeGestureRecognizer }) as? SideMenuScreenEdgeGestureRecognizer,
+            screenEdgeGestureRecognizer.edges == edge {
+            screenEdgeGestureRecognizer.remove()
+        }
+    }
 
     /**
      Adds screen edge gestures to a view to present a menu.
@@ -100,6 +113,17 @@ public class SideMenuManager: NSObject {
             Print.warning(.screenGestureAdded, arguments: methodName, side.name, suggestedMethodName)
         }
         return self.addScreenEdgeGesture(to: view, edge: side.edge)
+    }
+    
+    /**
+     Remove pan gestures from a view.
+     
+     - Parameter fromView: The view to remove gestures from.
+     */
+    func removePanGesture(from view: UIView) {
+        if let panGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuPanGestureRecognizer }) as? SideMenuPanGestureRecognizer {
+            panGestureRecognizer.remove()
+        }
     }
     
     /**
@@ -197,23 +221,10 @@ private extension SideMenuManager {
         return menu(forSide: leftSide ? .left : .right)
     }
     
-    func removeScreenEdgeGesture(from view: UIView, edge: UIRectEdge) {
-        if let screenEdgeGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuScreenEdgeGestureRecognizer }) as? SideMenuScreenEdgeGestureRecognizer,
-            screenEdgeGestureRecognizer.edges == edge {
-            screenEdgeGestureRecognizer.remove()
-        }
-    }
-
     func addScreenEdgeGesture(to view: UIView, edge: UIRectEdge) -> UIScreenEdgePanGestureRecognizer {
         self.removeScreenEdgeGesture(from: view, edge: edge)
         return SideMenuScreenEdgeGestureRecognizer(addTo: view, target: self, action: #selector(handlePresentMenuScreenEdge(_:))).with {
             $0.edges = edge
-        }
-    }
-    
-    func removePresentPanGesture(from view: UIView) {
-        if let panGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuPanGestureRecognizer }) as? SideMenuPanGestureRecognizer {
-            panGestureRecognizer.remove()
         }
     }
     
