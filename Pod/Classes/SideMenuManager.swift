@@ -196,17 +196,27 @@ private extension SideMenuManager {
     func menu(forLeftSide leftSide: Bool) -> Menu? {
         return menu(forSide: leftSide ? .left : .right)
     }
-
-    func addScreenEdgeGesture(to view: UIView, edge: UIRectEdge) -> UIScreenEdgePanGestureRecognizer {
+    
+    func removeScreenEdgeGesture(from view: UIView, edge: UIRectEdge) {
         if let screenEdgeGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuScreenEdgeGestureRecognizer }) as? SideMenuScreenEdgeGestureRecognizer,
             screenEdgeGestureRecognizer.edges == edge {
             screenEdgeGestureRecognizer.remove()
         }
+    }
+
+    func addScreenEdgeGesture(to view: UIView, edge: UIRectEdge) -> UIScreenEdgePanGestureRecognizer {
+        self.removeScreenEdgeGesture(from: view, edge: edge)
         return SideMenuScreenEdgeGestureRecognizer(addTo: view, target: self, action: #selector(handlePresentMenuScreenEdge(_:))).with {
             $0.edges = edge
         }
     }
-
+    
+    func removePresentPanGesture(from view: UIView) {
+        if let panGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuPanGestureRecognizer }) as? SideMenuPanGestureRecognizer {
+            panGestureRecognizer.remove()
+        }
+    }
+    
     @discardableResult func addPresentPanGesture(to view: UIView) -> UIPanGestureRecognizer {
         if let panGestureRecognizer = view.gestureRecognizers?.first(where: { $0 is SideMenuPanGestureRecognizer }) as? SideMenuPanGestureRecognizer {
             return panGestureRecognizer
